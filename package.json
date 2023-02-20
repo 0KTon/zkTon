@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "test":"npm run jest step2 -w contracts-func"
+  },
+  "private": true,
+  "workspaces": ["zkTribe-twa", "contracts-func", "packages/*"]
+}
