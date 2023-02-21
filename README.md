@@ -11,5 +11,8 @@ Some of zKTON’s pioneering innovation includes social buying and portfolio man
 ### Hack a Tonx
 In this hackathon, we hope to learn and understand the ton ecosystem, understand func. Finally, create an NFT aggregator which can be used to buy an NFT social via telegram.
 
+We presented this idea in IRL at the Tonx meetup's and there was interest from the TON ecosystem. 
+Although TON NFT ecosystem is nascent, as more projects build on it we see this growing. 
+
 ### User flows
 TBD
