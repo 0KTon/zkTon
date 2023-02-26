@@ -1,0 +1,57 @@
+.NftList-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 950px;
+  width: 100%;
+}
+
+.NftList-items {
+  border-radius: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 24px;
+  width: 100%;
+}
+
+.NftList-item {
+  background: #131415;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  width: 200px;
+}
+
+.NftList-item-img {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.NftList-item-price {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.NftList-item-price img {
+  width: 24px;
+}
+
+.NftList-item-price span {
+  font-weight: 600;
+}
+
+.NftList-item-button {
+  background: #248bda;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 12px;
+  text-transform: uppercase;
+}
+
+.NftList-item-button:hover {
+  background: #7db3dd;
+}

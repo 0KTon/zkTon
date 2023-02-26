@@ -1,4 +1,20 @@
-:root {
+
+body {
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* :root {
   --tg-theme-bg-color: #efeff3;
   --tg-theme-button-color: #63d0f9;
   --tg-theme-button-text-color: black;
@@ -70,4 +86,4 @@
     color: white;
     padding: 10px;
   }
-}
+} */
