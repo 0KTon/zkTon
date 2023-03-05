@@ -12,7 +12,7 @@ async function deploy() {
   const client = new TonClient({ endpoint });
 
   // prepare Counter's initial code and data cells for deployment
-  const counterCode = Cell.fromBoc(fs.readFileSync("counter.cell"))[0]; // compilation output from step 6
+  const counterCode = Cell.fromBoc(fs.readFileSync("./sources/counter.cell"))[0]; // compilation output from step 6
   const initialCounterValue = Date.now(); // to avoid collisions use current number of milliseconds since epoch as initial value
   const counter = Counter.createForDeploy(counterCode, initialCounterValue);
 

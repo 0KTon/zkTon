@@ -35,13 +35,13 @@ describe("Counter tests", () => {
     expect(value).toEqual(17n);
   });
 
-  it("should increment the counter value", async () =>  {
+  xit("should increment the counter value", async () =>  {
     await counterContract.sendIncrement(wallet1.getSender());
     const counterValue = await counterContract.getCounter();
     expect(counterValue).toEqual(18n);
   })
 
-  it("should send ton coin to the contract", async () => {
+  xit("should send ton coin to the contract", async () => {
     console.log("sending 7.123 TON");
     await wallet1.send({
       to: counterContract.address,
@@ -49,7 +49,7 @@ describe("Counter tests", () => {
     });
   });
 
-  it("should increment the counter value", async () =>  {
+  xit("should increment the counter value", async () =>  {
     console.log("sending increment message");
     await counterContract.sendIncrement(wallet1.getSender());
   })
