@@ -27,32 +27,28 @@ export type NftCollectionData = {
 //           = Storage;
 
 export function buildNftCollectionDataCell(data: NftCollectionData) {
-    let dataCell = new Cell()
-    // console.log("Math.abs(parseInt(data.nextItemIndex.toString())) -- ",Math.abs(parseInt(data.nextItemIndex.toString())));
-    dataCell.asBuilder().storeAddress(data.ownerAddress)
-    dataCell.asBuilder().storeUint(data.nextItemIndex, 64)
-
-    let contentCell = new Cell()
+    const dataCell = beginCell()
+                    .storeAddress(data.ownerAddress)
+                    .storeUint(data.nextItemIndex, 64);
+    
 
     let collectionContent = encodeOffChainContent(data.collectionContent)
 
-    let commonContent = new Cell()
-    commonContent.asBuilder().storeBuffer(Buffer.from(data.commonContent))
-    // commonContent.bits.writeString(data.commonContent)
+    let commonContent = beginCell().storeBuffer(Buffer.from(data.commonContent))
+    let contentCell = beginCell()
+                        .storeRef(collectionContent)
+                        .storeRef(commonContent)
+                        .endCell();
+    dataCell.storeRef(contentCell)
+    dataCell.storeRef(data.nftItemCode)
 
-    contentCell.asBuilder().storeRef(collectionContent)
-    contentCell.asBuilder().storeRef(commonContent)
-    dataCell.asBuilder().storeRef(contentCell)
-
-    dataCell.asBuilder().storeRef(data.nftItemCode)
-
-    let royaltyCell = new Cell()
-    royaltyCell.asBuilder().storeUint(data.royaltyParams.royaltyFactor, 16)
-    royaltyCell.asBuilder().storeUint(data.royaltyParams.royaltyBase, 16)
-    royaltyCell.asBuilder().storeAddress(data.royaltyParams.royaltyAddress)
-    dataCell.asBuilder().storeRef(royaltyCell)
-
-    return dataCell
+    let royaltyCell = beginCell()
+                      .storeUint(data.royaltyParams.royaltyFactor, 16)
+                      .storeUint(data.royaltyParams.royaltyBase, 16)
+                      .storeAddress(data.royaltyParams.royaltyAddress)
+    dataCell.storeRef(royaltyCell)
+    
+    return dataCell.endCell()
 }
 
 export function buildNftCollectionStateInit(conf: NftCollectionData) {
