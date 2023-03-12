@@ -88,7 +88,8 @@ const NftList = () => {
               <img src="/ton_symbol.png" alt="" />
               <span>{item.price.toLocaleString()}</span>
             </div>
-            <button className="NftList-item-button">BUY</button>
+            <button className="NftList-item-button">Buy now</button>
+            <button className="NftList-item-button">Place bid</button>
           </div>
         )}
       </div>

@@ -13,6 +13,10 @@ code {
   box-sizing: border-box;
 }
 
+button {
+  border: none;
+}
+
 
 /* :root {
   --tg-theme-bg-color: #efeff3;

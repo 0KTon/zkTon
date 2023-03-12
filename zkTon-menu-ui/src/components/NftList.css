@@ -10,6 +10,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
+  justify-content: center;
   padding: 24px;
   width: 100%;
 }
@@ -45,7 +46,7 @@
 
 .NftList-item-button {
   background: #248bda;
-  border-radius: 8px;
+  border-radius: 6px;
   color: #ffffff;
   cursor: pointer;
   padding: 12px;
