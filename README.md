@@ -14,6 +14,12 @@ In this hackathon, we hope to learn and understand the ton ecosystem, understand
 We presented this idea in IRL at the Tonx meetup's and there was interest from the TON ecosystem. 
 Although TON NFT ecosystem is nascent, as more projects build on it we see this growing. 
 
+### Plan
+- Create a telegram bot that is integrated with contracts - DONE
+- Integrate aggregator contract with getgems - In Progress
+- Allow Buy - In Progress
+- Allow Group Buy - In Progress
+
 ### User flows
 #### Hackathon Main User Workflows: 
 #####  UX.1 user flow: 
