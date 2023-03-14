@@ -50,7 +50,6 @@ describe('nft collection smc', () => {
         // // deploy counter
         collection = blockchain.openContract(collectionLocal);
         await collection.sendDeploy(OWNER.getSender());
-        console.log("Deployed")
       }),
 
     // it('should ignore external messages', async () => {
@@ -70,7 +69,7 @@ describe('nft collection smc', () => {
     it('should return collection data', async () => {
         
 
-        let res = await collection.getCounter()
+        let res = await collection.getCollection()
         expect(res).toEqual(177n);
 
         // expect(res.nextItemId).toEqual(defaultConfig.nextItemIndex)

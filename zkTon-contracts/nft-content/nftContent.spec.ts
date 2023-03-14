@@ -1,4 +1,4 @@
-import {decodeOffChainContent, encodeOffChainContent, flattenSnakeCell, makeSnakeCell} from "./nftContent";
+import {decodeOffChainContent, encodeOffChainContent,  makeSnakeCell} from "./nftContent";
 
 describe('nft content encoder', () => {
     it('should encode off chain content', async () => {

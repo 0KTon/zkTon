@@ -25,7 +25,7 @@ export default class NftCollectionLocal implements Contract {
     }
     async sendDeploy(provider: ContractProvider, via: Sender) {
         await provider.internal(via, {
-          value: "1.01", // send 0.01 TON to contract for rent
+          value: "0.01", // send 0.01 TON to contract for rent
           bounce: false,
         });
       }
@@ -46,13 +46,12 @@ export default class NftCollectionLocal implements Contract {
       }
       
     async getCollection(provider:ContractProvider): Promise<{ nextItemId: number, ownerAddress: Address, collectionContent: string }> {
-        const { stack } = await provider.get("getCollection", []);
+        const { stack } = await provider.get("get_collection_data", []);
         if (!stack) {
             throw new Error(`Unable to invoke get_collection_data on contract`)
         }
         let nextItemId = stack.readBigNumber() 
         console.log('nextItemId -->',nextItemId)
-        console.log('nextItemId -->',stack.peek())
 
         let collectionContent = stack.readCell() 
         let ownerAddress = stack.readAddress() 

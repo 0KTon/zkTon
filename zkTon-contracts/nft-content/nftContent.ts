@@ -1,4 +1,4 @@
-import {Cell, Slice} from "ton";
+import {beginCell, Cell, Slice} from "ton";
 
 const OFF_CHAIN_CONTENT_PREFIX = 0x01
 
@@ -6,11 +6,17 @@ export function flattenSnakeCell(cell: Cell) {
     let c: Cell|null = cell
 
     let res = Buffer.alloc(0)
-
+console.log("The root cell in decode - ", c)
     while (c) {
         let cs = c.beginParse()
-        let data = cs.loadBuffer(cs.remainingBits / 8);
-        res = Buffer.concat([res, data])
+        if(cs.remainingBits){
+        // console.log("The data - ", cs.remainingBits)
+
+            let data = cs.loadBuffer(127);
+        console.log("The data - ", data)
+
+            res = Buffer.concat([res, data])
+        }
         c = c.refs[0]
     }
 
@@ -28,22 +34,36 @@ function bufferToChunks(buff: Buffer, chunkSize: number) {
 
 export function makeSnakeCell(data: Buffer) {
     let chunks = bufferToChunks(data, 127)
-    let rootCell = new Cell()
+    let rootCell = beginCell()
     let curCell = rootCell
+    curCell.storeBuffer(chunks[0])
+    let nextCell = new Cell().asBuilder().storeBuffer(chunks[1])
+    curCell.storeRef(nextCell)
+    curCell = nextCell
+    let nextCell2 = new Cell().asBuilder().storeBuffer(chunks[2])
+    curCell.storeRef(nextCell2)
 
-    for (let i = 0; i < chunks.length; i++) {
-        let chunk = chunks[i]
+    
 
-        curCell.asBuilder().storeBuffer(chunk)
-
-        if (chunks[i+1]) {
-            let nextCell = new Cell()
-            curCell.refs.push(nextCell)
-            curCell = nextCell
-        }
-    }
-
-    return rootCell
+    // console.log("curcell - ",curCell)
+    console.log("rootCell - ",rootCell)
+    // curCell.storeBuffer(chunks[0])
+    // for (let i = 0; i < chunks.length-1; i++) {
+    //     // let chunk = chunks[i]
+    //     // console.log("rootCell -- ", i , " -  ", rootCell)
+              
+    //     if (chunks[i+1]) {
+    //         // console.log(chunks[i+1]);
+    //         let nextCell = beginCell().storeBuffer(chunks[i+1])
+    //         curCell.storeRef(nextCell)
+    //         // console.log("curCell 2 -- ", i , " -  ", curCell, nextCell)
+    //         curCell = nextCell
+    //         nextCell.endCell();
+    //     }
+    //     // curCell.endCell()
+    // }
+    console.log("rootCell.availableRefs.toFixed() -- ", rootCell.availableRefs.toFixed(), rootCell.asCell().refs[0])
+    return rootCell.endCell()
 }
 
 export function encodeOffChainContent(content: string) {
