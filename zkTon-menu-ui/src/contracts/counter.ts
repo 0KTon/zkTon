@@ -25,7 +25,53 @@ async getCounter(provider: ContractProvider) {
     return stack.readBigNumber();
   }
   
-async sendIncrement(provider: ContractProvider, via: Sender) {
+async bid(amount) {
+  let defaultConfig: NftAuctionV2Data = {
+    marketplaceFeeAddress: randomAddress(),
+    marketplaceFeeFactor: new BN(5),
+    marketplaceFeeBase: new BN(100),
+
+
+    royaltyAddress: randomAddress(),
+    royaltyFactor: new BN(20),
+    royaltyBase: new BN(100),
+
+
+    minBid: toNano('1'),
+    maxBid: toNano('100'),
+    minStep: toNano('1'),
+    endTimestamp: 1655880000, // 22 June 2022 г., 6:40:00
+
+    stepTimeSeconds: 60 * 5,
+    tryStepTimeSeconds: 60 * 5,
+
+    nftOwnerAddress: null,
+    nftAddress: randomAddress(),
+
+    end: true,
+    marketplaceAddress: randomAddress(),
+    activated: false,
+    createdAtTimestamp: 1655880000 - (60 * 60),
+}
+
+  const auc = await NftAuctionV2Local.createFromConfig({
+    ...defaultConfig,
+    end: false,
+    nftOwnerAddress: randomAddress(),
+    maxBid: new BN(0),
+});
+
+auc.contract.setC7Config({
+    myself: auc.address,
+    unixtime: defaultConfig.createdAtTimestamp + 10,
+})
+
+const bidResult = await makeBid(auc, buyerAddress, toNano(amount));
+
+
+}
+
+  async sendIncrement(provider: ContractProvider, via: Sender) {
   const messageBody = beginCell()
     .storeUint(1, 32) // op (op #1 = increment)
     .storeUint(0, 64) // query id
