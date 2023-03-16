@@ -15,8 +15,8 @@ app.get('/nftCollectionSales', (req, res) => {
     body: JSON.stringify({
       query: `{
       nftCollectionSales(
-        first: 10,
-        collectionAddress: "EQCA14o1-VWhS2efqoh_9M1b_A9DtKTuoqfmkn83AbJzwnPi",
+        first: 5000,
+        collectionAddress: "EQBPa7td5VDwGltzeSzsp32MkzqzlqHjAOsKtaX0mkMJhq_B",
       ) {
         name
         address

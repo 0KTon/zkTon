@@ -1,5 +1,8 @@
-import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beginCell } from "ton-core";
-
+import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beginCell, toNano, address } from "ton-core";
+import { NftAuctionV2Data } from "./nft-auction-v2/NftAuctionV2.data";
+import BN from "bn.js";
+import { NftAuctionV2Local } from "./nft-auction-v2/NftAuctionV2Local";
+import { NftAuctionLocal } from "./nft-auction/NftAuctionLocal";
 export default class Counter implements Contract {
 
   static createForDeploy(code: Cell, initialCounterValue: number): Counter {
@@ -20,21 +23,19 @@ async sendDeploy(provider: ContractProvider, via: Sender) {
     });
   }
   
-async getCounter(provider: ContractProvider) {
-    const { stack } = await provider.get("counter", []);
-    return stack.readBigNumber();
-  }
-  
-async bid(amount) {
+
+}
+export const bid =  async (amount:number, nftAddress:string) => {
+  console.log("Bid called", amount)
   let defaultConfig: NftAuctionV2Data = {
-    marketplaceFeeAddress: randomAddress(),
-    marketplaceFeeFactor: new BN(5),
-    marketplaceFeeBase: new BN(100),
+    marketplaceFeeAddress: address("EQCjk1hh952vWaE9bRguFkAhDAL5jj3xj9p0uPWrFBq_GEMS"),
+    marketplaceFeeFactor: 5,
+    marketplaceFeeBase: 100,
 
 
-    royaltyAddress: randomAddress(),
-    royaltyFactor: new BN(20),
-    royaltyBase: new BN(100),
+    royaltyAddress: address(""),
+    royaltyFactor: 0,
+    royaltyBase: 0,
 
 
     minBid: toNano('1'),
@@ -45,41 +46,33 @@ async bid(amount) {
     stepTimeSeconds: 60 * 5,
     tryStepTimeSeconds: 60 * 5,
 
-    nftOwnerAddress: null,
-    nftAddress: randomAddress(),
+    nftOwnerAddress: address("EQAcl8YbjEFreMyB0m3KKIzCS-pSFudfN3ZwYhgeaXhH93nh"),
+    nftAddress: address(nftAddress),
 
     end: true,
-    marketplaceAddress: randomAddress(),
+    marketplaceAddress: address("EQCjk1hh952vWaE9bRguFkAhDAL5jj3xj9p0uPWrFBq_GEMS"),
     activated: false,
     createdAtTimestamp: 1655880000 - (60 * 60),
 }
+const auc = await NftAuctionV2Local.createFromConfig(defaultConfig);
+auc.contract.setC7Config({unixtime: defaultConfig.createdAtTimestamp})
+const bidRes = await makeBid(auc, randomAddress(), toNano('2'));
 
-  const auc = await NftAuctionV2Local.createFromConfig({
-    ...defaultConfig,
-    end: false,
-    nftOwnerAddress: randomAddress(),
-    maxBid: new BN(0),
+}
+
+async function makeBid(provider:ContractProvider, auc: NftAuctionLocal, buyerAddress: Address, amount: number) {
+  return await provider.internal(via, {
+    value: toNano(amount), // send 0.002 TON for gas
+    body: new Cell(),
+    bounce: true,
 });
-
-auc.contract.setC7Config({
-    myself: auc.address,
-    unixtime: defaultConfig.createdAtTimestamp + 10,
-})
-
-const bidResult = await makeBid(auc, buyerAddress, toNano(amount));
-
-
+  return auc.contract.sendInternalMessage(new InternalMessage({
+    to: auc.address,
+    from: buyerAddress,
+    value: amount,
+    bounce: true,
+    body: new CommonMessageInfo({
+      body: new CellMessage(new Cell())
+    })
+  }));
 }
-
-  async sendIncrement(provider: ContractProvider, via: Sender) {
-  const messageBody = beginCell()
-    .storeUint(1, 32) // op (op #1 = increment)
-    .storeUint(0, 64) // query id
-    .endCell();
-  await provider.internal(via, {
-    value: "0.002", // send 0.002 TON for gas
-    body: messageBody
-  });
-}
-}
-
