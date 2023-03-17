@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { INftItem } from '../models/Nft';
 import './NftList.css'
-import {bid} from  '../contracts/counter';
+// import {bid} from  '../contracts/counter';
+import { useCounterContract } from '../hooks/useCounterContract';
+import { useTonConnect } from '../hooks/useTonConnect';
+import { TonConnectButton } from '@tonconnect/ui-react';
+
 const NftList = () => {
 
   const [items, setItems] = useState<Array<INftItem>>([]);
+  const { connected } = useTonConnect();
 
+  const { makeNewBid } = useCounterContract("EQBJgOTSVSOr3TCOn80hH68JrP6PChJHAG1Cajl36VIexoHN");
   useEffect(() => {
     // setItems([
     //   {
@@ -92,7 +98,7 @@ const NftList = () => {
             </div>
             
             <button className="NftList-item-button">Buy now</button>
-            <button className="NftList-item-button" onClick={() =>bid(item.price,item.address)}>Place bid</button>
+            <button  className='NftList-item-button'  onClick={() =>makeNewBid(item.price+1)}>Place bid</button>
           </div>
         )}
       </div>

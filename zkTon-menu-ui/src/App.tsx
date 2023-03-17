@@ -3,16 +3,18 @@ import '@twa-dev/sdk';
 
 import { TonConnectButton } from '@tonconnect/ui-react';
 import { useTonConnect } from './hooks/useTonConnect';
-import { useCounterContract } from './hooks/useCounterContract';
+// import { useCounterContract } from './hooks/useCounterContract';
 import NftList from './components/NftList';
 
 
 function App() {
   const { connected } = useTonConnect();
-  const { value, address, sendIncrement } = useCounterContract();
+  // const { value, address, sendIncrement } = useCounterContract();
 
   return (
     <div className='AppContainer'>
+      <TonConnectButton />
+
       <NftList />
 
       {/* <div className='Container'>
