@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { INftItem } from '../models/Nft';
 import './NftList.css'
 // import {bid} from  '../contracts/counter';
-import { useCounterContract } from '../hooks/useNftContract';
+import { useNftContract } from '../hooks/useNftContract';
 import { useTonConnect } from '../hooks/useTonConnect';
 import { TonConnectButton } from '@tonconnect/ui-react';
 
@@ -11,7 +11,7 @@ const NftList = () => {
   const [items, setItems] = useState<Array<INftItem>>([]);
   const { connected } = useTonConnect();
 
-  const { makeNewBid } = useCounterContract("EQBJgOTSVSOr3TCOn80hH68JrP6PChJHAG1Cajl36VIexoHN");
+  const { makeNewBid } = useNftContract("EQBJgOTSVSOr3TCOn80hH68JrP6PChJHAG1Cajl36VIexoHN");
   useEffect(() => {
     // setItems([
     //   {
@@ -87,18 +87,18 @@ const NftList = () => {
   return (
     <div className="NftList-container">
       <div className="NftList-items">
-        {items.filter((item:INftItem)=> item.price < 5).map((item: INftItem) =>
+        {items.filter((item: INftItem) => item.price < 5).map((item: INftItem) =>
           <div className="NftList-item" key={item.address}>
             <img className="NftList-item-img" src={`https://nft.fragment.com/username/${item.name}.webp`} alt="" />
             <div className="NftList-item-price">
               {/* <img src="/ton_symbol.png" alt="" /> */}
-              <span>{item.name}</span>  
+              <span>{item.name}</span>
               {/* <span>{item.address}</span>   */}
               <span>{item.price.toLocaleString()}</span>
             </div>
-            
+
             <button className="NftList-item-button">Buy now</button>
-            <button  className='NftList-item-button'  onClick={() =>makeNewBid(item.price+1)}>Place bid</button>
+            <button className='NftList-item-button' onClick={() => makeNewBid(item.price + 1)}>Place bid</button>
           </div>
         )}
       </div>

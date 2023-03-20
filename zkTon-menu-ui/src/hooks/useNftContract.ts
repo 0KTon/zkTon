@@ -5,7 +5,7 @@ import { useTonConnect } from './useTonConnect';
 
 import { Address, OpenedContract } from 'ton-core';
 
-export function useCounterContract(address: string) {
+export function useNftContract(address: string) {
   const client = useTonClient();
   // const [val, setVal] = useState<null | number>();
   const { sender } = useTonConnect();
@@ -22,8 +22,8 @@ export function useCounterContract(address: string) {
 
   return {
     address: nftContract?.address.toString(),
-    makeNewBid: (amount:number) => {
-        return nftContract?.sendBid(sender, amount);
-      },
+    makeNewBid: (amount: number) => {
+      return nftContract?.sendBid(sender, amount);
+    },
   };
 }
