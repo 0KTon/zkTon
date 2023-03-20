@@ -96,7 +96,6 @@ const NftList = () => {
               {/* <span>{item.address}</span>   */}
               <span>{item.price.toLocaleString()}</span>
             </div>
-            <button className="NftList-item-button">Buy now</button>
             <button className='NftList-item-button' onClick={() => makeNewBid(item.price)}>Place bid</button>
           </div>
         )}
