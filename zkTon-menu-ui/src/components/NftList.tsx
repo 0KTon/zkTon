@@ -89,16 +89,15 @@ const NftList = () => {
       <div className="NftList-items">
         {items.filter((item: INftItem) => item.price < 5).map((item: INftItem) =>
           <div className="NftList-item" key={item.address}>
-            <img className="NftList-item-img" src={`https://nft.fragment.com/username/${item.name}.webp`} alt="" />
+            {/* <img className="NftList-item-img" src={`https://nft.fragment.com/username/${item.name}.webp`} alt="" /> */}
             <div className="NftList-item-price">
               {/* <img src="/ton_symbol.png" alt="" /> */}
               <span>{item.name}</span>
               {/* <span>{item.address}</span>   */}
               <span>{item.price.toLocaleString()}</span>
             </div>
-
             <button className="NftList-item-button">Buy now</button>
-            <button className='NftList-item-button' onClick={() => makeNewBid(item.price + 1)}>Place bid</button>
+            <button className='NftList-item-button' onClick={() => makeNewBid(item.price)}>Place bid</button>
           </div>
         )}
       </div>
