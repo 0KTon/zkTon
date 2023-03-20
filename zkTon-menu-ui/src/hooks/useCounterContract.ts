@@ -1,30 +1,41 @@
 import { useEffect, useState } from 'react';
-import NFT from '../contracts/nft';
+import Counter from '../contracts/counter';
 import { useTonClient } from './useTonClient';
 import { useAsyncInitialize } from './useAsyncInitialize';
 import { useTonConnect } from './useTonConnect';
 
 import { Address, OpenedContract } from 'ton-core';
 
-export function useCounterContract(address:string) {
+export function useCounterContract() {
   const client = useTonClient();
-  // const [val, setVal] = useState<null | number>();
+  const [val, setVal] = useState<null | number>();
   const { sender } = useTonConnect();
 
   const sleep = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
 
-  const nftContract = useAsyncInitialize(async () => {
+  const counterContract = useAsyncInitialize(async () => {
     if (!client) return;
-    const contract = new NFT(
-      Address.parse(address) // replace with your address from tutorial 2 step 8
+    const contract = new Counter(
+      Address.parse('EQCzmNZfQ3fPWL6wm6enDdkeeWkT_3oVqQRrw-QELjYoTHYR') // replace with your address from tutorial 2 step 8
     );
-    return client.open(contract) as OpenedContract<NFT>;
+    return client.open(contract) as OpenedContract<Counter>;
   }, [client]);
 
+  useEffect(() => {
+    async function getValue() {
+      if (!counterContract) return;
+      setVal(null);
+      const val = await counterContract.getCounter();
+      setVal(Number(val));
+    }
+    getValue();
+  }, [counterContract]);
+
   return {
-    address: nftContract?.address.toString(),
-    makeNewBid: (amount:number) => {
-        return nftContract?.makeBid(sender, amount);
+    value: val,
+    address: counterContract?.address.toString(),
+    sendIncrement: () => {
+        return counterContract?.sendIncrement(sender);
       },
   };
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { INftItem } from '../models/Nft';
 import './NftList.css'
 // import {bid} from  '../contracts/counter';
-import { useCounterContract } from '../hooks/useCounterContract';
+import { useCounterContract } from '../hooks/useNftContract';
 import { useTonConnect } from '../hooks/useTonConnect';
 import { TonConnectButton } from '@tonconnect/ui-react';
 
